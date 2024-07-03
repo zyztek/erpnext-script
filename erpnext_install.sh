@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 
-# Setting error handler
-handle_error() {
-    local line=$1
-    local exit_code=$?
-    echo "An error occurred on line $line with exit status $exit_code"
-    exit $exit_code
-}
-
-trap 'handle_error $LINENO' ERR
-set -e
-
 # Retrieve server IP
 server_ip=$(hostname -I | awk '{print $1}')
 
@@ -312,11 +301,11 @@ source ~/.profile
 
 # Conditional Node.js installation based on the version of ERPNext selected
 if [[ "$bench_version" == "version-15" ]]; then
+    nvm install 20
+    node_version="20"
+else
     nvm install 18
     node_version="18"
-else
-    nvm install 16
-    node_version="16"
 fi
 
 sudo apt-get -qq install npm -y
@@ -522,9 +511,9 @@ case "$continue_prod" in
     sleep 2
     source ~/.profile
     if [[ "$bench_version" == "version-15" ]]; then
-        nvm alias default 18
+        nvm alias default 20
     else
-        nvm alias default 16
+        nvm alias default 18
     fi
     bench use $site_name
     bench build
