@@ -9,8 +9,9 @@ To use this script, follow these steps:
 # Before Installation
 
 Make sure you install the latest package versions by updating system packages if you are running this script on a fresh Ubuntu machine.
-
+The first command will remove the new kernel version update/upgrade
 ```
+sudo apt full-upgrade -y --auto-remove
 sudo apt update && sudo apt -y upgrade
 ```
 and then reboot your machine 
@@ -18,35 +19,26 @@ and then reboot your machine
 # Important!
 Do not run this script as root as it will fail when setting up the site. If your VPS default user is root, create a non-root user by following these steps:
 
-1. Create a new user (you can change frappeuser to your preferred user name):
+1. Create a new user and add it to sudoers
 ```
-sudo adduser frappeuser
-Full Name []: frappeuser
-Room Number []:
-Work Phone []:
-Home Phone []:
-Other []:
-Is the information correct? [Y]
+sudo useradd -m erpnext -s /bin/bash
+sudo usermod -aG sudo erpnext
+sudo passwd erpnext
+sudo su - erpnext
+sudo apt update
 ```
-2. Add the user to sudoers:
+2. Ensure you're on created user's home directory:
 ```
-usermod -aG sudo frappeuser
+cd /home/erpnext
 ```
-3. Switch to created user:
-```
-su frappeuser
-```
-4. Ensure you're on created user's home directory:
-```
-cd /home/frappeuser
-```
-5. Continue with the next steps below.
+3. Continue with the next steps below.
 
 # Installation:
 
 1. Clone the Repo:
 ```
-git clone https://github.com/flexcomng/erpnext_quick_install.git
+###git clone https://github.com/flexcomng/erpnext_quick_install.git
+git clone https://github.com/zyztek/erpnext-script/blob/main/erpnext_install.sh
 ```
 2. navigate to the folder:
 ```
@@ -85,3 +77,13 @@ bench setup redis
 sudo supervisorctl reload
 ```
 This will fix the spawn error and all services will restart successfully.
+
+to run bench use:
+```
+cd frappe-bench
+bench start
+```
+if bench not running execute this command
+```
+bench serve --port 8001
+```
