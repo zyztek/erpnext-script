@@ -221,7 +221,7 @@ echo -e "\n"
 echo -e "${YELLOW}Installing additional Python packages and Redis Server${NC}"
 sleep 2
 sudo apt install git python3-dev python3-setuptools python3.10-venv python3-pip supervisor redis-server -y && \
-sudo systemctl enable redis-server
+#sudo systemctl enable redis-server
 
 # Detect the architecture
 arch=$(uname -m)
@@ -302,11 +302,11 @@ source ~/.profile
 
 # Conditional Node.js installation based on the version of ERPNext selected
 if [[ "$bench_version" == "version-15" ]]; then
-    nvm install 20
-    node_version="20"
-else
     nvm install 18
     node_version="18"
+else
+    nvm install 16
+    node_version="16"
 fi
 
 sudo apt-get -qq install npm -y
@@ -333,7 +333,7 @@ fi
 
 
 sudo apt install python3-pip -y
-sudo pip3 install --user frappe-bench
+sudo pip3 install frappe-bench
 
 # Initiate bench in frappe-bench folder, but get a supervisor can't restart bench error...
 echo -e "${YELLOW}Initialising bench in frappe-bench folder.${NC}"
@@ -386,16 +386,16 @@ case "$continue_prod" in
     echo -e "${YELLOW}Installing packages and dependencies for Production...${NC}"
     sleep 2
     # Setup supervisor and nginx config
-    sudo /home/bpdp/software/python-dev-tools/miniconda39/envs/py310-erpnext/bin/bench setup production $USER && \
+    #sudo /home/bpdp/software/python-dev-tools/miniconda39/envs/py310-erpnext/bin/bench setup production $USER && \
     yes | sudo bench setup production $USER && \
     echo -e "${YELLOW}Applying necessary permissions to supervisor...${NC}"
     sleep 1
     # Change ownership of supervisord.conf
-    sudo -H bench config dns_multitenant on
-    sudo -H bench setup nginx
-    sudo service nginx reload
-    cd ~/frappe-bench/logs
-    sudo chown -R erpnext:erpnext *
+    #sudo -H bench config dns_multitenant on
+    #sudo -H bench setup nginx
+    #sudo service nginx reload
+    #cd ~/frappe-bench/logs
+    #sudo chown -R erpnext:erpnext *
     # Path to the supervisord.conf file
     FILE="/etc/supervisor/supervisord.conf"
     # Construct the search pattern with the current $USER environment variable
@@ -416,8 +416,8 @@ case "$continue_prod" in
     sudo service supervisor restart && \
 
     # Setup production again to reflect the new site
-    cd frappe-bench
-    sudo bench setup production frappe --yes
+    #cd frappe-bench
+    #sudo bench setup production frappe --yes
     yes | sudo bench setup production $USER && \
 
     echo -e "${YELLOW}Enabling Scheduler...${NC}"
@@ -520,9 +520,9 @@ case "$continue_prod" in
     sleep 2
     source ~/.profile
     if [[ "$bench_version" == "version-15" ]]; then
-        nvm alias default 20
-    else
         nvm alias default 18
+    else
+        nvm alias default 16
     fi
     bench use $site_name
     bench build
