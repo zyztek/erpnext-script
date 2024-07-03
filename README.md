@@ -12,8 +12,8 @@ Make sure you install the latest package versions by updating system packages if
 
 The first command will remove the new kernel version update/upgrade
 ```
-sudo apt full-upgrade -y --auto-remove
 sudo apt update && sudo apt -y upgrade
+sudo apt full-upgrade -y --auto-remove
 ```
 and then reboot your machine 
 
@@ -86,4 +86,20 @@ bench start
 if bench not running execute this command
 ```
 bench serve --port 8001
+```
+clear logs
+```
+cd ~/frappe-bench/logs
+sudo chown -R erpnext:erpnext *
+```
+change redis config por to 11000
+```
+sudo nano /etc/redis/redis.conf
+```
+frappe user’s home account not being accessible by anyone but root
+```
+cd ~/frappe-bench
+sudo chmod -R o+rx
+cd erpnext
+sudo chmod -R o+rx
 ```
