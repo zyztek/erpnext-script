@@ -9,6 +9,7 @@ To use this script, follow these steps:
 # Before Installation
 
 Make sure you install the latest package versions by updating system packages if you are running this script on a fresh Ubuntu machine.
+
 The first command will remove the new kernel version update/upgrade
 ```
 sudo apt full-upgrade -y --auto-remove
@@ -37,12 +38,11 @@ cd /home/erpnext
 
 1. Clone the Repo:
 ```
-###git clone https://github.com/flexcomng/erpnext_quick_install.git
-git clone https://github.com/zyztek/erpnext-script/blob/main/erpnext_install.sh
+git clone https://github.com/zyztek/erpnext-script.git
 ```
 2. navigate to the folder:
 ```
-cd erpnext_quick_install
+cd erpnext-script
 ```
 3. Make the script executable
 ```
